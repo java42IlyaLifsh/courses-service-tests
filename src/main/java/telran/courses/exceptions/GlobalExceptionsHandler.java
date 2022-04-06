@@ -19,6 +19,11 @@ String getCustomExceptionText(Exception e) {
 	LOG.error("Server has thrown exception with message: {}",e.getMessage());
 	return e.getMessage();
 }
+@ExceptionHandler(ResourceNotFoundException.class)
+@ResponseStatus(value=HttpStatus.NOT_FOUND) 
+String notFoundException(Exception e) {
+	return getCustomExceptionText(e);
+}
 @ExceptionHandler(RuntimeException.class)
 @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR) 
 String getStandardExceptionText(RuntimeException e) {
