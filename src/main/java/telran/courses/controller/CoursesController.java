@@ -6,6 +6,7 @@ import javax.validation.*;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,5 +60,6 @@ public class CoursesController {
 		LOG.debug("course with id {} has been updated ", course.id);
 		return courseUpdated;
 	}
+	
 
 }

@@ -1,5 +1,6 @@
 package telran.courses.service;
 
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -13,11 +14,18 @@ import telran.courses.dto.Course;
 import telran.courses.exceptions.ResourceNotFoundException;
 import static telran.courses.api.ApiConstants.*;
 @Service
-public class CoursesServiceImpl implements CoursesService{
+public class CoursesServiceImpl implements CoursesService, Serializable{
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+private static final int MILLIS_IN_MINUTE = 60000;
 @Value("${app.interval.minutes: 1}")
 	int interval;
 	static Logger LOG = LoggerFactory.getLogger(CoursesService.class);
-		
+	
+	@Value("${app.file.name: courses.data}")
+	String fileName;	
 		
 		
 	private Map<Integer, Course> courses = new HashMap<>();
@@ -89,18 +97,46 @@ public class CoursesServiceImpl implements CoursesService{
 
 	@Override
 	public void restore() {
-		// TODO Auto-generated method stub
+		try(ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileName))){
+			CoursesServiceImpl coursesRestored = (CoursesServiceImpl) input.readObject();
+			courses = coursesRestored.courses;
+			LOG.debug("service has been restored from file {}", fileName);
+			
+		} catch(FileNotFoundException e) {
+			LOG.warn("service has not been restored - no file {} found", fileName);
+			
+		} 
+		catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 		
 	}
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
+		try(ObjectOutputStream output =
+				new ObjectOutputStream(new FileOutputStream(fileName))) {
+			output.writeObject(this);
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 		
 	}
 	@PostConstruct
 	void restoreInvocation() {
-		LOG.debug("interval: {}", interval);
+		restore();
+		Thread thread = new Thread(() -> {
+			try {
+				Thread.sleep(interval * MILLIS_IN_MINUTE);
+			} catch (InterruptedException e) {
+				
+			}
+			save();
+			LOG.debug("courses data saved into file {}", fileName);
+		});
+		thread.setDaemon(true);
+		thread.start();
 	}
 
 	}
