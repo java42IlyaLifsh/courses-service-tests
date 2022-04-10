@@ -96,8 +96,8 @@ private static final int MILLIS_IN_MINUTE = 60000;
 		return courseUpdated;
 	}
 
-	@Override
-	public void restore() {
+	
+	private void restore() {
 		try(ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileName))){
 			CoursesServiceImpl coursesRestored = (CoursesServiceImpl) input.readObject();
 			courses = coursesRestored.courses;
@@ -113,8 +113,8 @@ private static final int MILLIS_IN_MINUTE = 60000;
 		
 	}
 
-	@Override
-	public void save() {
+	
+	private void save() {
 		try(ObjectOutputStream output =
 				new ObjectOutputStream(new FileOutputStream(fileName))) {
 			output.writeObject(this);

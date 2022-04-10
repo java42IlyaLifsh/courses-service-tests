@@ -14,7 +14,6 @@ public interface CoursesService {
 	Course removeCourse(int id);
 
 	Course updateCourse(int id, Course course);
-	void restore();
-	void save();
+	
 	
 }
