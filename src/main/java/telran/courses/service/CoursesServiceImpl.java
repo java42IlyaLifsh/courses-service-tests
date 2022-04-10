@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -129,16 +130,22 @@ private static final int MILLIS_IN_MINUTE = 60000;
 		Thread thread = new Thread(() -> {
 			try {
 				Thread.sleep(interval * MILLIS_IN_MINUTE);
+				save();
 			} catch (InterruptedException e) {
 				
 			}
-			save();
+			
 			LOG.debug("courses data saved into file {}", fileName);
 		});
 		thread.setDaemon(true);
 		thread.start();
 	}
-
+	@PreDestroy
+	void persistCoursesData() {
+		save();
+		LOG.debug("courses data saved into file {}", fileName);
+		
+	}
 	}
 
 
