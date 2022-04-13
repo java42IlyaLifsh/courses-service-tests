@@ -19,7 +19,7 @@ public class CoursesSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.httpBasic();
 		http.cors().and().csrf().disable();
-		
+		http.authorizeHttpRequests().antMatchers("/login").permitAll();
 		http.authorizeHttpRequests().antMatchers(HttpMethod.GET).hasAnyRole("USER", "ADMIN");
 		http.authorizeHttpRequests().anyRequest().hasRole("ADMIN");
 	}

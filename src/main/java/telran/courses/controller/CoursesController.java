@@ -21,9 +21,9 @@ public class CoursesController {
 	static Logger LOG = LoggerFactory.getLogger(CoursesController.class);
 	@Autowired
 	private CoursesService coursesService;
+	
 
 	@PostMapping
-	
 	Course addCourse(@RequestBody @Valid Course course) {
 		Course courseAdded = coursesService.addCourse(course);
 		LOG.debug("added course with id {} ", courseAdded.id);
