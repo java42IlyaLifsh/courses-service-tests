@@ -128,14 +128,17 @@ private static final int MILLIS_IN_MINUTE = 60000;
 	void restoreInvocation() {
 		restore();
 		Thread thread = new Thread(() -> {
-			try {
-				Thread.sleep(interval * MILLIS_IN_MINUTE);
-				save();
-			} catch (InterruptedException e) {
+			while(true) {
+				try {
+					Thread.sleep(interval * MILLIS_IN_MINUTE);
+					save();
+				} catch (InterruptedException e) {
+					
+				}
 				
+				LOG.debug("courses data saved into file {}", fileName);
 			}
 			
-			LOG.debug("courses data saved into file {}", fileName);
 		});
 		thread.setDaemon(true);
 		thread.start();

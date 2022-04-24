@@ -5,6 +5,7 @@ import java.util.Base64;
 import javax.validation.Valid;
 
 import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,8 @@ public class AuthController {
 	PasswordEncoder passwordEncoder;
 	@Value("${app.security.enable: true}")
 	 boolean securityEnable;
-	
+	@Autowired
+	JwtUtils jwtUtils;
 	public AuthController(AccountingManagement accounting, PasswordEncoder passwordEncoder) {
 		this.accounting = accounting;
 		this.passwordEncoder = passwordEncoder;
@@ -47,8 +49,8 @@ public class AuthController {
 
 	private String getToken(LoginData loginData) {
 		//"Basic <username:password> in Base64 code
-		byte[] code = String.format("%s:%s", loginData.email, loginData.password).getBytes();
-		return "Basic " + Base64.getEncoder().encodeToString(code);
+		
+		return "Bearer " + jwtUtils.create(loginData.email);
 	}
 
 }
