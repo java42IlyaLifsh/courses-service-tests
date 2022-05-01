@@ -1,10 +1,12 @@
 package telran.courses.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.validation.constraints.*;
 
 public class Course implements Serializable{
+	
 	
 	private static final long serialVersionUID = 1L;
 	private static final long MIN_HOURS = 80;
@@ -23,4 +25,31 @@ public class Course implements Serializable{
 	@NotNull
 	@Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}.*")
 	public String openingDate;
+	public Course(@NotEmpty String course, @NotEmpty String lecturer, @Min(80) @Max(500) int hours,
+			@Min(5000) @Max(20000) int cost, @NotNull @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}.*") String openingDate) {
+		this.course = course;
+		this.lecturer = lecturer;
+		this.hours = hours;
+		this.cost = cost;
+		this.openingDate = openingDate;
+	}
+	public Course() {
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(cost, course, hours, id, lecturer, openingDate);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		return cost == other.cost && Objects.equals(course, other.course) && hours == other.hours
+				&& Objects.equals(id, other.id) && Objects.equals(lecturer, other.lecturer)
+				&& Objects.equals(openingDate, other.openingDate);
+	}
 }

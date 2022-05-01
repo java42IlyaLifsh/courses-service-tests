@@ -18,6 +18,9 @@ public class CourseEntity {
 	public static CourseEntity build(Course course) {
 		CourseEntity courseEntity = new CourseEntity();
 		courseEntity.id = course.id;
+		return fillEntity(course, courseEntity);
+	}
+	public static CourseEntity fillEntity(Course course, CourseEntity courseEntity) {
 		courseEntity.hours = course.hours;
 		courseEntity.cost = course.cost;
 		courseEntity.lecturer = course.lecturer;
