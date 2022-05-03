@@ -26,7 +26,7 @@ public class CourseEntity {
 		cost = course.cost;
 		lecturer = course.lecturer;
 		name = course.course;
-		openingDate = LocalDate.parse(course.openingDate);
+		openingDate = LocalDate.parse(course.openingDate.substring(0, 10));
 		
 	}
 	public Course getCourseDto() {
