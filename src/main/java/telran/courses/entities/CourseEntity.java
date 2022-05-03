@@ -18,15 +18,16 @@ public class CourseEntity {
 	public static CourseEntity build(Course course) {
 		CourseEntity courseEntity = new CourseEntity();
 		courseEntity.id = course.id;
-		return fillEntity(course, courseEntity);
-	}
-	public static CourseEntity fillEntity(Course course, CourseEntity courseEntity) {
-		courseEntity.hours = course.hours;
-		courseEntity.cost = course.cost;
-		courseEntity.lecturer = course.lecturer;
-		courseEntity.name = course.course;
-		courseEntity.openingDate = LocalDate.parse(course.openingDate);
+		courseEntity.fillEntity(course);
 		return courseEntity;
+	}
+	public void fillEntity(Course course) {
+		hours = course.hours;
+		cost = course.cost;
+		lecturer = course.lecturer;
+		name = course.course;
+		openingDate = LocalDate.parse(course.openingDate);
+		
 	}
 	public Course getCourseDto() {
 		Course course = new Course();
@@ -55,6 +56,11 @@ public class CourseEntity {
 	}
 	public LocalDate getOpeningDate() {
 		return openingDate;
+	}
+	@Override
+	public String toString() {
+		return "CourseEntity [id=" + id + ", lecturer=" + lecturer + ", name=" + name + ", hours=" + hours + ", cost="
+				+ cost + ", openingDate=" + openingDate + "]";
 	}
 	
 

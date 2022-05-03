@@ -56,6 +56,7 @@ public class CoursesController {
 			throw new BadRequestException(String.format("new course has id: %d but updated course should have id %d",
 					course.id, id));
 		}
+		LOG.debug("new course for update {}", course);
 		Course courseUpdated = coursesService.updateCourse(id, course);
 		LOG.debug("course with id {} has been updated ", course.id);
 		return courseUpdated;

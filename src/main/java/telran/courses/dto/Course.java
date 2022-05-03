@@ -52,4 +52,9 @@ public class Course implements Serializable{
 				&& Objects.equals(id, other.id) && Objects.equals(lecturer, other.lecturer)
 				&& Objects.equals(openingDate, other.openingDate);
 	}
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", course=" + course + ", lecturer=" + lecturer + ", hours=" + hours + ", cost="
+				+ cost + ", openingDate=" + openingDate + "]";
+	}
 }

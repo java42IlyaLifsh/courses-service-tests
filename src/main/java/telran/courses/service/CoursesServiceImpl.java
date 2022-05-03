@@ -2,6 +2,7 @@ package telran.courses.service;
 
 import java.util.List;
 
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import telran.courses.exceptions.ResourceNotFoundException;
 import telran.courses.repo.CourseRepository;
 @Service
 public class CoursesServiceImpl extends AbstractCoursesService {
+	static Logger LOG = LoggerFactory.getLogger(CoursesServiceImpl.class);
 @Autowired
 	CourseRepository courseRepository;
 	@Override
@@ -70,11 +72,12 @@ public class CoursesServiceImpl extends AbstractCoursesService {
 					id, course.id));
 		}
 		CourseEntity courseEntity = courseRepository.getById(id);
-		CourseEntity.fillEntity(course, courseEntity);
+		Course res = courseEntity.getCourseDto();
+		courseEntity.fillEntity(course);
+		LOG.debug("courseEntity for update {}", courseEntity);
 		
 		
-		
-		return courseEntity.getCourseDto();
+		return res;
 	}
 
 	@Override
