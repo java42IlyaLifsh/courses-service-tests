@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -53,6 +54,7 @@ CoursesService coursesService;
 	void getCourseTest() {
 		assertEquals(course1, coursesService.getCourse(id1));
 		assertEquals(course2, coursesService.getCourse(id2));
+		assertThrows(ResourceNotFoundException.class, ()->coursesService.getCourse(123));
 	}
 	@Test
 	@Order(3)
@@ -71,7 +73,7 @@ CoursesService coursesService;
 		assertEquals(course3, coursesService.removeCourse(id1));
 		assertEquals(course2, coursesService.removeCourse(id2));
 		assertTrue(coursesService.getAllCourses().isEmpty());
-		assertThrows(ResourceNotFoundException.class, () -> coursesService.removeCourse(123));
+		assertThrows(ResourceNotFoundException.class, () -> coursesService.removeCourse(id1));
 		
 	}
 
