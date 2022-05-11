@@ -1,8 +1,14 @@
 package telran.courses.controller;
+//ilya-hw61
+
+import static telran.courses.api.ApiConstants.MAX_ID;
+import static telran.courses.api.ApiConstants.MIN_ID;
 
 import java.util.List;
 
 import javax.validation.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
@@ -38,14 +44,14 @@ public class CoursesController {
 		return courses;
 	}
 	@GetMapping("/{id}")
-	Course getCourse(@PathVariable(name = "id") int id) {
+	Course getCourse(@PathVariable(name = "id")@Min(MIN_ID) @Max(MAX_ID)  int id) {
 		Course course = coursesService.getCourse(id);
 		LOG.debug("course with id {} returned to client", course.id);
 		return course;
 	}
 	
 	@DeleteMapping("/{id}")
-	Course removeCourse(@PathVariable(name = "id") int id) {
+	Course removeCourse(@PathVariable(name = "id")@Min(MIN_ID) @Max(MAX_ID)  int id) {
 		Course course = coursesService.removeCourse(id);
 		LOG.debug("course with id {} has been removed", id);
 		return course;
